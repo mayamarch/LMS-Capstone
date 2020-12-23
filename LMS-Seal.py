@@ -11,13 +11,23 @@ endlnpt = lines[len(lines)-1][1][0]
 
 linerange = endlnpt-startlnpt
 
-n = 0.01
-xerrors = [[0] for i in range(0, round(linerange/n))]
+n = 100
+xerrors = [[0] for i in range(0, round(linerange*n))]
 
 i = 0
-while i < linerange:
-    data = move(data, n, 'x')
+while i < linerange*n:
+    move(data, 1/n, 'x')
     xerrors[i] = GetXErrorAverage(data, lines)
     i = i+1
 
-print(xerrors)
+InitialMove(data, lines)
+
+i = 0
+minindex = 0
+for i in range(len(xerrors)):
+    if xerrors[i]< xerrors[minindex]:
+        minindex = i
+
+move(data, (1/n)*minindex, 'x')
+print(data)
+
