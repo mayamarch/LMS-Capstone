@@ -38,9 +38,20 @@ move(data, (1/n)*xminindex, 'x')
 
 print(data)
 
-# Finding the Y axis minimum error across length of seal
+# Find min/max y range
+y_min = lines[0][0][1]
+y_max = lines[0][0][1]
+for line in lines:
+    for point in line:
+        if point[1] < y_min:
+            y_min = point[1]
+        if point[1] > y_max:
+            y_max = point[1]
 
-ylinerange = 2
+ylinerange = y_max - y_min
+print(ylinerange)
+
+# Finding the Y axis minimum error across length of seal
 yerrors = [[0] for i in range(0, round(ylinerange*n))]
 
 i = 0
