@@ -27,7 +27,7 @@ while i < xlinerange*n:
 i = 0
 xminindex = 0
 for i in range(len(xerrors)):
-    if xerrors[i]< xerrors[xminindex]:
+    if xerrors[i] < xerrors[xminindex]:
         xminindex = i
 
 # Move data back to original position
@@ -35,8 +35,6 @@ InitialMove(data, lines)
 
 # Move data to position of min errror
 move(data, (1/n)*xminindex, 'x')
-
-print(data)
 
 # Finding the Y axis minimum error across length of seal
 
@@ -53,7 +51,7 @@ while i < ylinerange*n:
 i = 0
 yminindex = 0
 for i in range(len(yerrors)):
-    if yerrors[i]< yerrors[yminindex]:
+    if yerrors[i] < yerrors[yminindex]:
         yminindex = i
 
 # Move data back to original position
