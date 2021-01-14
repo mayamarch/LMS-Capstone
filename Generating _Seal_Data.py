@@ -36,10 +36,10 @@ cleandata = [item for index, item in enumerate(cleandata) if item[0] not in [row
 cleandata.sort()
 
 # Create final data set in ( (x,y) , (x,y) ) line format
-data = []
+lines = []
 for i in range(0, len(cleandata)-1):
     if i % 2 == 0:
-        data.append((cleandata[i], cleandata[i+1]))
+        lines.append((cleandata[i], cleandata[i+1]))
 
-print(data)
+print(lines)
 
