@@ -38,8 +38,6 @@ cleandata.sort()
 # Create final data set in ( (x,y) , (x,y) ) line format
 lines = []
 for i in range(0, len(cleandata)-1):
-    if i % 2 == 0:
         lines.append((cleandata[i], cleandata[i+1]))
 
 print(lines)
-
