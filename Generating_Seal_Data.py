@@ -20,24 +20,31 @@ for i in range(0, len(lines)):
     if len(values) == 3:
         dataset.append((float(values[0]), float(values[1]), float(values[2])))
 
-# Clean out all unnecessary out of plane data points from dataset
-cleandata = []
+# Clean out all unnecessary out of plane laserdata points from dataset
+sealnomdata = []
 for i in range(0, len(dataset)):
     if dataset[i][2] > 0 and dataset[i][2] < 1:
-        cleandata.append((dataset[i][0], dataset[i][1]))
+        sealnomdata.append((dataset[i][0], dataset[i][1]))
 
 # Delete repeating coordinates
-cleandata = list(dict.fromkeys(cleandata))
+sealnomdata = list(dict.fromkeys(sealnomdata))
 
 # Delete all values with same x or y value
-cleandata = [item for index, item in enumerate(cleandata) if item[0] not in [row[0] for row in (cleandata[:index] + cleandata[index+1 :])] and item[1] not in [row[1] for row in (cleandata[:index] + cleandata[index+1 :])]]
+sealnomdata = [item for index, item in enumerate(sealnomdata) if item[0] not in [row[0] for row in (sealnomdata[:index] + sealnomdata[index + 1:])] and item[1] not in [row[1] for row in (sealnomdata[:index] + sealnomdata[index + 1:])]]
 
-# Order data in terms of increasing x term
-cleandata.sort()
+# Order laserdata in terms of increasing x term
+sealnomdata.sort()
 
-# Create final data set in ( (x,y) , (x,y) ) line format
+# Create final laserdata set in ( (x,y) , (x,y) ) line format
 lines = []
-for i in range(0, len(cleandata)-1):
-        lines.append((cleandata[i], cleandata[i+1]))
+for i in range(0, len(sealnomdata) - 1):
+        lines.append((sealnomdata[i], sealnomdata[i + 1]))
 
-print(lines)
+# Creating separate list for dearpygui plotting
+sealnomx = []
+for i in range(0, len(sealnomdata)):
+    sealnomx.append(sealnomdata[i][0])
+
+sealnomy = []
+for i in range(0, len(sealnomdata)):
+    sealnomy.append(sealnomdata[i][1])

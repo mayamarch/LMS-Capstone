@@ -108,7 +108,7 @@ class Result:
         self.coordinate = coordinate
 
 def GetXErrorAverage(data, lines):
-    # creating matrix of the values on the line segments that is closest each of the data points
+    # creating matrix of the values on the line segments that is closest each of the laserdata points
     test = []
     closest = []
 
@@ -140,7 +140,7 @@ def GetXErrorAverage(data, lines):
     return xErrorAvg
 
 def GetYErrorAverage(data, lines):
-    # creating matrix of the values on the line segments that is closest each of the data points
+    # creating matrix of the values on the line segments that is closest each of the laserdata points
     test = []
     closest = []
 
@@ -162,7 +162,7 @@ def GetYErrorAverage(data, lines):
         closest.append(test[index].coordinate)
         test.clear()
 
-    # creating list of the x error of each data point and their corresponding "closest" value
+    # creating list of the x error of each laserdata point and their corresponding "closest" value
     i = 0
     ytest = [[0] for i in range(len(data))]
 
