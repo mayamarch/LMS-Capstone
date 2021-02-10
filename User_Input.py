@@ -16,6 +16,7 @@ def apply_selected_file(sender, data):
     set_value("file", file)
     set_value("file_path", f"{directory}\\{file}")
     sealnomx, sealnomy, lines = generate_seal_data(file)
+    add_data("lines", lines)
     add_line_series("Seal Comparison", "Nominal Seal", sealnomx, sealnomy, color=[255, 255, 0], weight=2)
 
 
@@ -44,7 +45,7 @@ def apply_selected_file2(sender, data):
     set_value("directory2", directory2)
     set_value("file2", file2)
     set_value("file_path2", f"{directory2}\\{file2}")
-    lines = [(0, 5.25), (1.35, 5.7), (3, 5), (4, 4), (1, 1)]
+    lines = get_data("lines")
     laserdatax, laserdatay, laserdata = laser_algorithm(file2, lines)
     add_scatter_series("Seal Comparison", "Measured Data", laserdatax, laserdatay, marker=2, size=1, weight=2)
 
