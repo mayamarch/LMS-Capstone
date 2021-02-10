@@ -1,6 +1,7 @@
 from dearpygui.core import *
 from dearpygui.simple import *
-from LMS_Seal import *
+from LMS_Seal import laser_algorithm
+from Generating_Seal_Data import generate_seal_data
 
 # First Directory Picker
 def file_picker(sender, data):
@@ -14,6 +15,8 @@ def apply_selected_file(sender, data):
     set_value("directory", directory)
     set_value("file", file)
     set_value("file_path", f"{directory}\\{file}")
+    sealnomx, sealnomy, lines = generate_seal_data(file)
+    add_line_series("Seal Comparison", "Nominal Seal", sealnomx, sealnomy, color=[255, 255, 0], weight=2)
 
 
 set_main_window_size(900, 700)
@@ -41,6 +44,10 @@ def apply_selected_file2(sender, data):
     set_value("directory2", directory2)
     set_value("file2", file2)
     set_value("file_path2", f"{directory2}\\{file2}")
+    lines = [(0, 5.25), (1.35, 5.7), (3, 5), (4, 4), (1, 1)]
+    laserdatax, laserdatay, laserdata = laser_algorithm(file2, lines)
+    add_scatter_series("Seal Comparison", "Measured Data", laserdatax, laserdatay, marker=2, size=1, weight=2)
+
 
 with window("Select Laser Data", width=280, height=200, x_pos=300, y_pos=10):
     add_button("Laser Data Selector", callback=file_picker2)
@@ -54,14 +61,8 @@ with window("Select Laser Data", width=280, height=200, x_pos=300, y_pos=10):
     add_same_line()
     add_label_text("##filepath2", source="file_path2", color=[255, 0, 0])
 
-start_dearpygui()
 
-with window('Plot'):
-    set_window_pos("Plot", 10, 10)
-    set_item_width("Plot", 1200)
-    set_item_height("Plot", 650)
+with window('Plot', width=800, height=200, x_pos=300, y_pos=10):
     add_plot("Seal Comparison", x_axis_name="X Axis", y_axis_name="Y Axis")
-    add_line_series("Seal Comparison", "Nominal Seal", sealnomx, sealnomy, color=[255, 255, 0], weight=2)
-    add_scatter_series("Seal Comparison", "Measured Data", laserdatax, laserdatay, marker=2, size=1, weight=2)
 
 start_dearpygui()
