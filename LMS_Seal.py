@@ -1,16 +1,15 @@
 from functions import *
-
+from Laser import distance
 
 def laser_algorithm(data, lines):
-    f = open('laserdata.txt', 'r')
-    ol_data = f.readlines()
-
     # Create (x,y), (x,y) list format
+    n = 0.001
+    intervalL = 0
     laserdata = []
-    for i in range(0, len(ol_data)):
-        line = ol_data[i]
-        values = line.split()
-        laserdata.append((float(values[0]), float(values[1])))
+    for i in range(0, len(distance)):
+        intervalL = intervalL + n
+        laserdata.append((intervalL, (distance[i])))
+
 
     # Move laserdata to starting point of first line
     InitialMove(laserdata, lines)
