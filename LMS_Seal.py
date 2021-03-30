@@ -1,15 +1,13 @@
 from functions import *
-from Laser import distance
 
-def laser_algorithm(data, lines):
+def laser_algorithm(distance, lines):
     # Create (x,y), (x,y) list format
-    n = 0.001
+    d = 0.05
     intervalL = 0
     laserdata = []
     for i in range(0, len(distance)):
-        intervalL = intervalL + n
-        laserdata.append((intervalL, (distance[i])))
-
+        intervalL = intervalL + d
+        laserdata.append((intervalL, (5-distance[i])))
 
     # Move laserdata to starting point of first line
     InitialMove(laserdata, lines)
