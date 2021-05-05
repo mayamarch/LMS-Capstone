@@ -1,13 +1,12 @@
 from functions import *
 
-def laser_algorithm(distance, lines):
+def laser_algorithm(distance, lines, d):
     # Create (x,y), (x,y) list format
-    d = 0.05
-    intervalL = 0
+    intervalL = 0   # interval length
     laserdata = []
     for i in range(0, len(distance)):
         intervalL = intervalL + d
-        laserdata.append((intervalL, (5-distance[i])))
+        laserdata.append((intervalL, (5-distance[i])))      # 5 is just an arbitrary number larger than the range
 
     # Move laserdata to starting point of first line
     InitialMove(laserdata, lines)
@@ -20,19 +19,19 @@ def laser_algorithm(distance, lines):
 
     # Finding the X axis minimum error across length of seal
     n = 1000
-    xerrors = [[0] for i in range(0, round(xlinerange*n))]
+    xerrors = []
 
     i = 0
     while i < xlinerange*n:
         move(laserdata, 1 / n, 'x')
-        xerrors[i] = GetXErrorAverage(laserdata, lines)
+        xerrors.append(GetXErrorAverage(laserdata, lines))
         i = i+1
 
     # Find the position of the min in xerrors
     i = 0
     xminindex = 0
     for i in range(len(xerrors)):
-        if xerrors[i]< xerrors[xminindex]:
+        if xerrors[i] < xerrors[xminindex]:
             xminindex = i
 
     # Move laserdata back to original position
@@ -55,12 +54,11 @@ def laser_algorithm(distance, lines):
     ylinerange = y_max - y_min
 
     # Finding the Y axis minimum error across height of seal
-    yerrors = [[0] for i in range(0, round(ylinerange*n))]
-
+    yerrors = []
     i = 0
     while i < ylinerange*n-1:
         move(laserdata, 1 / n, 'y')
-        yerrors[i] = GetYErrorAverage(laserdata, lines)
+        yerrors.append(GetYErrorAverage(laserdata, lines))
         i = i+1
 
     # Find the position of the min in yerrors

@@ -9,18 +9,22 @@ def RunLaser(sender, data):
 
     serial_port.write("D".encode())     # set output format to ascii
     serial_port.write("A1".encode())    # set output to English Units
-    serial_port.write("H1".encode())    # start sampling
+    serial_port.write("H2".encode())    # start sampling
 
     num_measurements = get_value("Number of Measurements")
     time_delay = get_value("Time Delay")
     D = get_value("Interval Distance")
 
+    sleep(1.5 - time() % .1)
+
     distance = []
     for i in range(0, num_measurements):
-        serial_port.write("H2".encode())
-        sleep(time_delay - time() % 1)  # runs every 1 sec
         serial_port.write("H1".encode())    # start sampling
         distance.append(float(serial_port.readline().decode('ascii').strip()))  # read distance
+        serial_port.write("H2".encode())
+        sleep(time_delay - time() % .1)
+
+    serial_port.write("H1".encode())
 
     Interval_Dist = 0
     Intervals = []

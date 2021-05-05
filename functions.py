@@ -130,9 +130,9 @@ def GetXErrorAverage(data, lines):
         closest.append(test[index].coordinate)
         test.clear()
 
-    xtest = [[0] for i in range(len(data))]
+    xtest = []
     for i in range(0, len(data)):
-        xtest[i] = Error(data[i][0], closest[i][0])
+        xtest.append(Error(data[i][0], closest[i][0]))
 
     # averaging the error values
     xErrorAvg = average(xtest)
@@ -164,10 +164,9 @@ def GetYErrorAverage(data, lines):
 
     # creating list of the x error of each laserdata point and their corresponding "closest" value
     i = 0
-    ytest = [[0] for i in range(len(data))]
-
+    ytest = []
     while i < len(data):
-        ytest[i] = Error(data[i][1], closest[i][1])
+        ytest.append(Error(data[i][1], closest[i][1]))
         i = i + 1
 
     # averaging the error values

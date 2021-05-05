@@ -32,17 +32,22 @@ def RunLaser(sender, data):
 
     num_measurements = get_value("Number of Measurements")
     time_delay = get_value("Time Delay")
-    D = get_value("Interval Distance")
+    d = get_value("Interval Distance")
+
+    sleep(.3 - time() % .001)
 
     distance = []
     for i in range(0, num_measurements):
-        serial_port.write("H2".encode())
-        sleep(time_delay - time() % 1)  # runs every 1 sec
-        serial_port.write("H1".encode())    # start sampling
+        serial_port.write("H1".encode())  # start sampling
         distance.append(float(serial_port.readline().decode('ascii').strip()))  # read distance
+        serial_port.write("H2".encode())
+        sleep(time_delay - time() % .001)  # read distance
 
-    laserdatax, laserdatay, laserdata = laser_algorithm(distance, get_data("lines"))
+    serial_port.write("H1".encode())
+
+    laserdatax, laserdatay, laserdata = laser_algorithm(distance, get_data("lines"), d)
     add_scatter_series("Seal Comparison", "Measured Data", laserdatax, laserdatay, marker=2, size=1, weight=2)
+    set_value("firstvalue", 2*laserdatay[0])
 
 
 set_main_window_size(900, 700)
@@ -58,11 +63,12 @@ with window("Select Nominal Seal Profile Data", width=280, height=200, x_pos=10,
     add_same_line()
     add_label_text("##filepath", source="file_path", color=[255, 0, 0])
 
-with window("Calibration", width=500, height=200, x_pos=10, y_pos=10):
+with window("Laser", width=500, height=200, x_pos=300, y_pos=10):
     add_button("Start", callback=RunLaser)
-    add_input_int("Number of Measurements", default_value=15)
+    add_input_int("Number of Measurements", default_value=20)
     add_input_float("Time Delay", default_value=1)
-    add_input_float("Interval Distance", default_value=0.05)
+    add_input_float("Interval Distance", default_value=0.013)
+    add_label_text("Pin Nose OD (inches)", source="firstvalue", color=[255, 0, 0])
 
 with window('Plot', width=840, height=420, x_pos=10, y_pos=220):
     add_plot("Seal Comparison", x_axis_name="X Axis", y_axis_name="Y Axis")
